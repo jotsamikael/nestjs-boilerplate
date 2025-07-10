@@ -14,7 +14,9 @@ export class AuthService {
         private usersRepository: Repository<User>,
         private jwtService: JwtService
 
-    ){}
+    ){
+        //bcrypt.hash('123456789',10).then(console.log) //this function allowas you to generate the password for a user
+    }
 
     async register(registerDto: RegisterDto){
         const existingUser = await this.usersRepository.findOne({
@@ -45,7 +47,7 @@ export class AuthService {
            const existingUser = await this.usersRepository.findOne({
             where: {email: registerDto.email}
         })
-        if(!existingUser){
+        if(existingUser){
             throw new ConflictException('Email already in use! Please try a diff email')
         }
 
@@ -53,7 +55,7 @@ export class AuthService {
         const newlyCreatedUser = this.usersRepository.create({
             email: registerDto.email,
             name: registerDto.name,
-            password: registerDto.password,
+            password: hashedPassword,
             role: UserRole.ADMIN
 
         }) 
@@ -98,6 +100,18 @@ export class AuthService {
         secret: 'jwt_secret',
         expiresIn: '15m'
        });
+    }
+
+    // Find current user by ID
+    async getUserById(userId: number){
+       const user = await this.usersRepository.findOne({
+        where:{id:userId}
+       })
+       if(!user){
+        throw new UnauthorizedException('User not found!')
+       }
+       const {password, ...result} = user;
+       return result;
     }
 
     async refreshToken(refreshToken: string){
