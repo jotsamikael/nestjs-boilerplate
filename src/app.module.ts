@@ -13,9 +13,15 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Post } from './post/entities/post.entity';
 import { AuthModule } from './auth/auth.module';
 import { User } from './auth/entities/user.entity';
+import { ThrottlerModule } from '@nestjs/throttler';
 
 @Module({
   imports: [
+    ThrottlerModule.forRoot([
+      {ttl: 60000,
+        limit:5
+      }
+    ]),
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: 'localhost',
