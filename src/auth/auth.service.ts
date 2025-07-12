@@ -15,7 +15,7 @@ export class AuthService {
         private jwtService: JwtService
 
     ){
-        //bcrypt.hash('123456789',10).then(console.log) //this function allowas you to generate the password for a user
+        //bcrypt.hash('123456789',10).then(console.log) //this function allows you to generate the password for a user
     }
 
     async register(registerDto: RegisterDto){
