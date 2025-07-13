@@ -149,6 +149,6 @@ export class PostService {
         await this.cacheManager.del(key)
        }
 
-       this.postListCacheKeys.clear
+       this.postListCacheKeys.clear()
     }
 }

@@ -15,9 +15,15 @@ import { AuthModule } from './auth/auth.module';
 import { User } from './auth/entities/user.entity';
 import { ThrottlerModule } from '@nestjs/throttler';
 import { CacheModule } from '@nestjs/cache-manager';
+import { FileUploadModule } from './file-upload/file-upload.module';
+import { File } from './file-upload/entities/file.entity';
 
 @Module({
   imports: [
+    //file upload
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
     //Caching
     CacheModule.register({
       isGlobal: true,
@@ -38,7 +44,7 @@ import { CacheModule } from '@nestjs/cache-manager';
       username: 'root',
       password: '',
       database: 'typescript',
-      entities: [Post, User], //array of entities that you want to register
+      entities: [Post, User, File], //array of entities that you want to register
       synchronize: true, //dev mode
     }),
 
@@ -49,7 +55,7 @@ import { CacheModule } from '@nestjs/cache-manager';
       }) */
      load:[appConfig]
     })
-    ,HelloModule, UserModule, PostModule, AuthModule],
+    ,HelloModule, UserModule, PostModule, AuthModule, FileUploadModule],
   controllers: [AppController, UserController],
   providers: [AppService, UserService],
 })
