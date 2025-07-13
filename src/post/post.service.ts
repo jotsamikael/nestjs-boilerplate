@@ -6,7 +6,7 @@ import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
 import { User, UserRole } from 'src/auth/entities/user.entity';
 import { FindPostsQueryDto } from './dto/find-posts-query.dto';
-import { PaginatedResponse } from 'src/common/dto/interfaces/paginated-reponse.interfaces';
+import { PaginatedResponse } from 'src/common/interfaces/paginated-reponse.interfaces';
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import { Cache } from 'cache-manager';
 

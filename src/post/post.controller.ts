@@ -9,7 +9,7 @@ import { RolesGuard } from 'src/auth/guards/roles-guard';
 import { UserRole } from 'src/auth/entities/user.entity';
 import { Roles } from 'src/auth/decorators/role.decorators';
 import { FindPostsQueryDto } from './dto/find-posts-query.dto';
-import { PaginatedResponse } from 'src/common/dto/interfaces/paginated-reponse.interfaces';
+import { PaginatedResponse } from 'src/common/interfaces/paginated-reponse.interfaces';
 
 @Controller('post')
 export class PostController {

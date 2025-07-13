@@ -8,9 +8,13 @@ import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import { RolesGuard } from './guards/roles-guard';
+import { EventsModule } from 'src/events/events.module';
 
 @Module({
   imports:[
+    //events module
+    EventsModule,
+
     //this will make the post repository available in the current scope
     TypeOrmModule.forFeature([User]),
 

@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { HelloModule } from './hello/hello.module';
@@ -17,6 +17,8 @@ import { ThrottlerModule } from '@nestjs/throttler';
 import { CacheModule } from '@nestjs/cache-manager';
 import { FileUploadModule } from './file-upload/file-upload.module';
 import { File } from './file-upload/entities/file.entity';
+import { EventsModule } from './events/events.module';
+import { LoggerMiddleware } from './common/middleware/logger.middleware';
 
 @Module({
   imports: [
@@ -55,8 +57,14 @@ import { File } from './file-upload/entities/file.entity';
       }) */
      load:[appConfig]
     })
-    ,HelloModule, UserModule, PostModule, AuthModule, FileUploadModule],
+    ,HelloModule, UserModule, PostModule, AuthModule, FileUploadModule, EventsModule],
   controllers: [AppController, UserController],
   providers: [AppService, UserService],
 })
-export class AppModule {}
+export class AppModule implements NestModule{
+  configure(consumer: MiddlewareConsumer) {
+   // Apply middleware for all routes
+    consumer.apply(LoggerMiddleware).forRoutes('*');
+  }
+  
+}
