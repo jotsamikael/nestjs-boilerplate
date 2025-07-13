@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, ParseIntPipe, Post, Put, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, ParseIntPipe, Post, Put, Query, UseGuards } from '@nestjs/common';
 import { PostService } from './post.service';
 import { Post as PostEntity} from './entities/post.entity';
 import { CreatePostDto } from './dto/create-post.dto';
@@ -8,6 +8,8 @@ import { CurrentUser } from 'src/auth/decorators/current-user.decorattor';
 import { RolesGuard } from 'src/auth/guards/roles-guard';
 import { UserRole } from 'src/auth/entities/user.entity';
 import { Roles } from 'src/auth/decorators/role.decorators';
+import { FindPostsQueryDto } from './dto/find-posts-query.dto';
+import { PaginatedResponse } from 'src/common/dto/interfaces/paginated-reponse.interfaces';
 
 @Controller('post')
 export class PostController {
@@ -23,8 +25,10 @@ export class PostController {
     }
 
     @Get()
-   async getAllPosts(): Promise<PostEntity[]>{
-       return this.postService.getAllPosts();
+   async getAllPosts(
+    @Query() query : FindPostsQueryDto
+   ): Promise<PaginatedResponse<PostEntity>>{
+       return this.postService.getAllPosts(query);
     }
 
 

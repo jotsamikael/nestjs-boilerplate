@@ -14,14 +14,23 @@ import { Post } from './post/entities/post.entity';
 import { AuthModule } from './auth/auth.module';
 import { User } from './auth/entities/user.entity';
 import { ThrottlerModule } from '@nestjs/throttler';
+import { CacheModule } from '@nestjs/cache-manager';
 
 @Module({
   imports: [
+    //Caching
+    CacheModule.register({
+      isGlobal: true,
+      ttl: 30000,
+      max: 100
+    }),
+    //Rate limiting
     ThrottlerModule.forRoot([
       {ttl: 60000,
         limit:5
       }
     ]),
+    //Orm
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: 'localhost',
